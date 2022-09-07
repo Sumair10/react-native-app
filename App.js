@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   SafeAreaView,
@@ -20,6 +20,7 @@ import {
   Button,
   Alert,
   FlatList,
+  TouchableOpacity
 } from 'react-native';
 
 import {
@@ -63,14 +64,25 @@ const DATA = [
 
 const Separator = () => <View style={styles.separator} />;
 
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
+const Item = ({item, onPress, backgroundColor,}) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+  <Text style={[styles.title]}>{item.title}</Text>
+</TouchableOpacity>
 );
 
 const App = () => {
-  const renderItem = ({item}) => <Item title={item.title} />;
+  const [selectedId, setSelectedId] = useState(null)
+  const renderItem = ({item}) => {
+    const backgroundColor = item.id === selectedId ? "purple" : "black";
+    return(
+      <Item 
+      item={item}
+      onPress={() => setSelectedId(item.id)}
+      backgroundColor={{ backgroundColor }}
+      />
+      
+      )
+    }
   return (
     <>
       <SafeAreaView>
@@ -82,12 +94,16 @@ const App = () => {
             height: 50,
           }}></View>
       </SafeAreaView>
-      <ScrollView>
+      {/* <ScrollView> */}
 
       <FlatList
         data={DATA}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
+        extraData={selectedId}
+        // horizontal ={true}
+        refreshing = {true}
+     
         />
       {/* <Separator /> */}
       <View
@@ -108,7 +124,7 @@ const App = () => {
       <View style={[styles.container, styles.horizontal]}>
         <ActivityIndicator size="large" color="purple" />
       </View>
-          </ScrollView>
+          {/* </ScrollView> */}
     </>
   );
 };
@@ -152,7 +168,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: 10,
     marginVertical: 8,
-    marginHorizontal: 16,
+    marginHorizontal: 5,
     borderRadius:10
   },
   title: {
