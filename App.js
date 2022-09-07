@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -16,6 +16,10 @@ import {
   Text,
   useColorScheme,
   View,
+  ActivityIndicator,
+  Button,
+  Alert,
+  FlatList,
 } from 'react-native';
 
 import {
@@ -26,59 +30,86 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+const backgroundStyle = {
+  backgroundColor: 'purple',
 };
+const DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'First Item',
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Second Item',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Third Items',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d73',
+    title: 'Forth Items',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d74',
+    title: 'Fifth Items',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d75',
+    title: 'Sixth Items',
+  },
+  
+];
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+const Separator = () => <View style={styles.separator} />;
 
-  const backgroundStyle = {
-    backgroundColor: 'purple'
-  };
+const Item = ({title}) => (
+  <View style={styles.item}>
+    <Text style={styles.title}>{title}</Text>
+  </View>
+);
 
+const App = () => {
+  const renderItem = ({item}) => <Item title={item.title} />;
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
+    <>
+      <SafeAreaView>
+        <StatusBar backgroundColor={backgroundStyle.backgroundColor} a />
+
         <View
           style={{
             backgroundColor: 'purple',
-            height : 50
-          }}>
-      
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            height: 50,
+          }}></View>
+      </SafeAreaView>
+      <ScrollView>
+
+      <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        />
+      {/* <Separator /> */}
+      <View
+        style={{
+          // display:'flex',
+          // flexDirection : 'row',
+          alignItems: 'center',
+          
+          // width: '50%'
+        }}>
+        <Button
+          onPress={() => Alert.alert('Simple Button pressed')}
+          title="Learn More"
+          color="black"
+          accessibilityLabel="Learn more about this purple button"
+          />
+      </View>
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator size="large" color="purple" />
+      </View>
+          </ScrollView>
+    </>
   );
 };
 
@@ -98,6 +129,34 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  },
+  separator: {
+    marginVertical: 8,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  btn: {
+    width: 10,
+    backgroundColor: 'black',
+  },
+  item: {
+    backgroundColor: 'black',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius:10
+  },
+  title: {
+    color: 'white',
   },
 });
 
