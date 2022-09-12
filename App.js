@@ -55,10 +55,10 @@ const DATA = [
     id: '58694a0f-3da1-471f-bd96-145571e29d74',
     title: 'Fifth Items',
   },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d75',
-    title: 'Sixth Items',
-  },
+  // {
+  //   id: '58694a0f-3da1-471f-bd96-145571e29d75',
+  //   title: 'Sixth Items',
+  // },
   
 ];
 
